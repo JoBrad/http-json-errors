@@ -1,8 +1,3 @@
-// Type definitions for http-json-errors
-// Project: https://github.com/JoBrad/http-json-errors
-// Definitions by: Joseph T. Bradley
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
 export { HttpError, HttpErrorOptions } from './HttpError';
 import { HttpError, HttpErrorOptions } from './HttpError';
 /**
