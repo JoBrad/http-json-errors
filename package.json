@@ -1,6 +1,6 @@
 {
   "name": "http-json-errors",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Joseph T. Bradley",
   "description": "Provides a class for standardized Error reporting",
   "homepage": "https://github.com/JoBrad/http-json-errors#readme",
