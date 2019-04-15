@@ -1,0 +1,38 @@
+{
+  "name": "http-json-errors",
+  "version": "1.2.0",
+  "author": "Joseph T. Bradley",
+  "description": "Provides a class for standardized Error reporting",
+  "homepage": "https://github.com/JoBrad/http-json-errors#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoBrad/http-json-errors.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JoBrad/http-json-errors/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.13.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.2",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.3"
+  },
+  "keywords": [
+    "typescript",
+    "express",
+    "json",
+    "errors"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepare": "tsc",
+    "build": "tsc",
+    "test": "tsc && mocha -r ts-node/register src/**/*.spec.ts"
+  },
+  "types": "types/index.d.ts"
+}

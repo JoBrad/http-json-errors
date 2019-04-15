@@ -1,0 +1,8 @@
+{
+  // Settings are for the VSCode Mocha sidebar extension
+  // https://marketplace.visualstudio.com/itemdetails?itemName=maty.vscode-mocha-sidebar
+  "mocha.files.glob": "src/**/*.spec.ts",
+  "mocha.requires": [
+    "ts-node/register",
+  ]
+}
