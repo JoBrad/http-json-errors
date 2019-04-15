@@ -62,6 +62,7 @@ throw new HttpError(401, 'OMG!');
 Since this project was built in TypeScript, use the exported iterfaces for type checking.
 
 ```ts
+// Check out the Custom HTTP Error Classes section for a full list of custom classes!
 import { BadRequest, HttpErrorOptions } from 'json-http-errors';
 
 function totallyThrowsABadRequestError(options: HttpErrorOptions) {
@@ -70,9 +71,10 @@ function totallyThrowsABadRequestError(options: HttpErrorOptions) {
 ```
 
 
-## Custom HttpClass Errors
+## Custom HTTP Error Classes
 The following custom classes are available:
-Http Status Code | Class Name
+
+HTTP Status Code | Exported Class Name
 --- | ----------------------------
 400 | BadRequest
 401 | Unauthorized

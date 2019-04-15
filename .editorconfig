@@ -1,0 +1,5 @@
+indent_style=space            # Whether tabs or spaces will be used for indentation
+indent_size=2                 # How many spaces are used for each indention level
+end_of_line=lf                # The character(s) used for line breaks in the file
+insert_final_newline=true     # Whether a final newline will be inserted in the file, on save
+trim_trailing_whitespace=true # Whether trailing space will be trimmed on save
