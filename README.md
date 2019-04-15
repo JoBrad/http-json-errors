@@ -1,13 +1,13 @@
-# json-http-errors
+# http-json-errors
 A Node package that exposes standardized error creation functions and a class, for Express.
 
 ## Examples
 ### Standardized HttpErrors
 
-`json-http-errors` exposes
+`http-json-errors` exposes
 
 ```ts
-import { BadRequest } from 'json-http-errors';
+import { BadRequest } from 'http-json-errors';
 
 throw new BadRequest('You done messed up, son!');
 ```
@@ -26,7 +26,7 @@ Error: You done messed up, son!
 If you don't know the error type up front, but do know the code, use the `createError` function to get a custom class, or a generic one, if the status code can't be matched:
 
 ```ts
-import { createError } from 'json-http-errors';
+import { createError } from 'http-json-errors';
 
 throw createError(401, 'OMG!');
 ```
@@ -44,7 +44,7 @@ throw createError(401, 'OMG!');
 Create your own custom Error message using the HttpError class:
 
 ```ts
-import { HttpError } from 'json-http-errors';
+import { HttpError } from 'http-json-errors';
 
 throw new HttpError(401, 'OMG!');
 ```
@@ -63,7 +63,7 @@ Since this project was built in TypeScript, use the exported iterfaces for type 
 
 ```ts
 // Check out the Custom HTTP Error Classes section for a full list of custom classes!
-import { BadRequest, HttpErrorOptions } from 'json-http-errors';
+import { BadRequest, HttpErrorOptions } from 'http-json-errors';
 
 function totallyThrowsABadRequestError(options: HttpErrorOptions) {
   throw new BadRequest(options);
