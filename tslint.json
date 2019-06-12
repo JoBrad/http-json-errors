@@ -5,20 +5,29 @@
   ],
   "jsRules": {},
   "rules": {
-    "quotemark": [true, "single"],
-    "no-console": false,
+    "array-type": [true, "array-simple"],
+    "arrow-parens": [true, "ban-single-arg-parens"],
     "interface-name": false,
     "max-classes-per-file": false,
-    "array-type": [true, "array"],
-    "arrow-parens": [true, "ban-single-arg-parens"],
+    "member-access": [true, "no-public"],
+    "no-console": false,
+    "no-duplicate-imports": true,
+    "no-empty-interface": false,
     "no-empty": false,
     "no-shadowed-variable": false,
-    "trailing-comma": false,
-    "no-empty-interface": false,
-    "no-unused-variable": true,
-    "no-duplicate-imports": true,
+    "no-unused-variable": [true, {"ignore-pattern": "^_"}],
     "no-var-requires": false,
-    "member-access": [true, "no-public"]
+    "object-literal-sort-keys": false,
+    "quotemark": [true, "single"],
+    "semicolon": false,
+    "trailing-comma": true,
+    "variable-name": {
+      "options": [
+        "ban-keywords",
+        "check-format",
+        "allow-leading-underscore"
+      ]
+    }
   },
   "rulesDirectory": []
 }

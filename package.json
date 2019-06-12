@@ -1,6 +1,6 @@
 {
   "name": "http-json-errors",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "author": "Joseph T. Bradley",
   "description": "Provides a class for standardized Error reporting",
   "homepage": "https://github.com/JoBrad/http-json-errors#readme",
@@ -14,11 +14,14 @@
   "dependencies": {},
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
+    "@types/expect": "^1.20.4",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^11.13.0",
     "chai": "^4.2.0",
-    "mocha": "^6.1.2",
+    "mocha": "^6.1.4",
+    "ts-mocha": "^6.0.0",
     "ts-node": "^8.0.3",
+    "tslint": "^5.17.0",
     "typescript": "^3.4.3"
   },
   "keywords": [
@@ -32,7 +35,7 @@
   "scripts": {
     "prepare": "tsc",
     "build": "tsc",
-    "test": "tsc && mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "tsc && mocha lib/**/*.spec.js"
   },
   "types": "types/index.d.ts"
 }

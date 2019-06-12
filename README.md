@@ -1,42 +1,50 @@
 # http-json-errors
-A Node package that exposes standardized error creation functions and a class, for Express.
+A Node package that exposes standardized error creation functions and a class. This package was written for Express but doesn't have any dependencies on it.
 
-## Examples
-### Standardized HttpErrors
-
-`http-json-errors` exposes
+## Example
 
 ```ts
-import { BadRequest } from 'http-json-errors';
+import { BadRequest } from 'http-json-errors'
 
-throw new BadRequest('You done messed up, son!');
+throw new BadRequest('You done messed up, son!')
 ```
 
-```
-Error: You done messed up, son!
-    at [eval].ts:1:7
-    at Script.runInThisContext (vm.js:124:20)
-    ...
+```js
+{
+  isHttpError: true,
   status: 400,
   title: 'Bad Request',
-  message: 'You done messed up, son!' }
+  message: 'You done messed up, son!',
+  type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
+  body: {
+    error_text: 'The server cannot or will not process the request because ' +
+      'the received syntax is invalid, nonsensical, or exceeds ' +
+      'some limitation on what the server is willing to process.'
+  }
+}
 ```
 
 ### Generate Standard Errors by Http Status Code
 If you don't know the error type up front, but do know the code, use the `createError` function to get a custom class, or a generic one, if the status code can't be matched:
 
 ```ts
-import { createError } from 'http-json-errors';
+import { createError } from 'http-json-errors'
 
-throw createError(401, 'OMG!');
+throw createError(401, 'OMG!')
 ```
 
-```
-{ Error: OMG!
-    at Object.createError
-    ...
-    status: 401,
-    title: 'Unauthorized', message: 'OMG!'
+```js
+{
+  isHttpError: true,
+  status: 401,
+  title: 'Unauthorized',
+  message: 'OMG!',
+  type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401',
+  body: {
+    error_text: 'The request has not been applied because it lacks ' +
+      'valid authentication credentials for the target ' +
+      'resource.'
+  }
 }
 ```
 
@@ -44,32 +52,121 @@ throw createError(401, 'OMG!');
 Create your own custom Error message using the HttpError class:
 
 ```ts
-import { HttpError } from 'http-json-errors';
+import { HttpError } from 'http-json-errors'
 
-throw new HttpError(401, 'OMG!');
+throw new HttpError(401, {message: 'OMG!', body: { error_code: 'OMG!', error_text: 'I wish you wouldn\'t have done that.' } });
 ```
 
-```
-{ Error: OMG!
-    at Object.createError
-    ...
-    status: 401,
-    title: 'Internal Server Error', message: 'OMG!'
+```js
+{
+  isHttpError: true,
+  status: 401,
+  title: 'Internal Server Error',
+  message: 'OMG!',
+  body: {
+    error_code: 'OMG!',
+    error_text: "I wish you wouldn't have done that."
+  }
 }
 ```
 
-# TypeScript interfaces
-Since this project was built in TypeScript, use the exported iterfaces for type checking.
+# Typing
+This project was built in TypeScript and contains exported interfaces and type definitions for your convenience. Additionally, each object contains an isHttpError property set to true.
 
 ```ts
 // Check out the Custom HTTP Error Classes section for a full list of custom classes!
-import { BadRequest, HttpErrorOptions } from 'http-json-errors';
+import { BadRequest, HttpErrorOptions } from 'http-json-errors'
 
 function totallyThrowsABadRequestError(options: HttpErrorOptions) {
-  throw new BadRequest(options);
+  throw new BadRequest(options)
+}
+totallyThrowsABadRequestError('The user did something completely new that NOONE foresaw')
+```
+
+```js
+{
+  isHttpError: true,
+  status: 400,
+  title: 'Bad Request',
+  message: 'The user did something completely new that NOONE foresaw',
+  type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
+  body: {
+    error_text: 'The server cannot or will not process the request because ' +
+      'the received syntax is invalid, nonsensical, or exceeds ' +
+      'some limitation on what the server is willing to process.'
+  }
 }
 ```
 
+# Control over responses
+Note that in the examples above the returned object contains both Error detail and a response body that can be returned to the user. The body defaults to an object with the format below. Any stand-alone strings will be assigned to the `message` property, and if the status is < 500, this will be copied to the body.
+
+```ts
+import { HttpError } from 'http-json-errors'
+
+throw new HttpError(400, 'Bad stuff happened')
+```
+
+```js
+{
+  isHttpError: true,
+  status: 400,
+  title: 'Internal Server Error',
+  message: 'Bad stuff happened',
+  body: { error_text: 'Bad stuff happened' }
+}
+```
+
+If the error code is >= 500, you should provide a body by passing an HttpErrorOptions object (one of the exported TypeScript interfaces). Note that any options provided in this way overwrite the default options.
+
+```ts
+import { HttpError } from 'http-json-errors'
+
+throw new HttpError(500, 'Bad stuff happened', {body: {error_code: 'Why', error_description: 'You did the thing you should not have done' }})
+```
+
+```json
+{
+  isHttpError: true,
+  status: 500,
+  title: 'Internal Server Error',
+  message: 'Bad stuff happened',
+  body: {
+    error_code: 'Why',
+    error_description: 'You did the thing you should not have done'
+  }
+}
+```
+
+```ts
+new BadRequest('Bad stuff happened', {body: 'That was not good'})
+```
+```js
+
+  isHttpError: true,
+  status: 400,
+  title: 'Bad Request',
+  message: 'Bad stuff happened',
+  type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
+  body: 'That was not good'
+}
+```
+
+```ts
+import { NotImplemented } from 'http-json-errors'
+
+throw new NotImplemented({body: {excuse: 'I just write the code. THEY designed the damn thing'}})
+```
+```js
+{
+  isHttpError: true,
+  status: 501,
+  title: 'Not Implemented',
+  message: 'The request method is not supported by the server and cannot be handled.',
+  type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/501',
+  body: { excuse: 'I just write the code. THEY designed the damn thing' }
+}
+```
 
 ## Custom HTTP Error Classes
 The following custom classes are available:

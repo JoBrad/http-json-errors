@@ -16,11 +16,5 @@
     "paths": { },                             /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "typeRoots": [ "types/" ],                /* List of folders to include type definitions from. */
     "types": [ "node", "mocha", "chai" ],     /* Type declaration files to be included in compilation. */
-  },
-  "include": [                                /* Specifies a list of glob patterns that match files to be included in compilation. */
-    "src/**/*.ts"
-  ],
-  "exclude": [                                /* Specifies a list of files to be excluded from compilation. */
-    "src/**/*.spec.ts"
-  ]
+  }
 }

@@ -13,6 +13,7 @@ export interface HttpErrorOptions {
     name?: string;
     title?: string;
     status?: number;
+    body?: object | string;
     message?: string;
     detail?: string;
     stack?: string;
@@ -26,13 +27,13 @@ export interface HttpErrorOptions {
  * @param {any} value
  * @returns {(number|undefined)}
  */
-export declare function getStatusCode(value: any): number | undefined;
+export declare function getStatusCode(value: string | number): Maybe<number>;
 /**
  * Returns HttpError options parsed from the provided parameters
  * @param errorOptions
  * @returns HttpErrorOptions
  */
-export declare function parseErrorOptions(...errorOptions: Array<string | number | HttpErrorOptions | Array<string | number>>): HttpErrorOptions;
+export declare function parseErrorOptions(...errorOptions: Array<string | number | HttpErrorOptions | HttpError>): HttpErrorOptions;
 /**
  * The HttpError class extends the Error object, providing Http status
  * code and message detail. Pass it an HttpErrorOptions object, a status
@@ -43,8 +44,10 @@ export declare function parseErrorOptions(...errorOptions: Array<string | number
  * @extends {Error}
  */
 export declare class HttpError extends Error {
+    readonly isHttpError = true;
     status: number;
     title: string;
+    body?: object;
     message: string;
     constructor(...errorOptions: Array<number | string | HttpErrorOptions>);
     /**
@@ -55,4 +58,6 @@ export declare class HttpError extends Error {
      */
     statusCode: number;
 }
+declare type Maybe<T> = T | undefined;
+export {};
 //# sourceMappingURL=HttpError.d.ts.map
