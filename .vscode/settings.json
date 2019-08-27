@@ -6,4 +6,6 @@
     "ts-node/register",
   ],
   "mocha.runTestsOnSave": "false",
+  "files.trimFinalNewlines": true,
+  "files.eol": "\n"
 }
