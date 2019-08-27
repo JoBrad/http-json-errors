@@ -49,7 +49,7 @@ describe('json-http-errors#', () => {
         const errorClass = errorObject.constructor
         const errorClassName = errorClass.name
         expect(errorClassName).to.not.equal('Error')
-        expect(errorObject.status).to.equal(statusNumber)
+        expect(errorObject.statusCode).to.equal(statusNumber)
         expect(errorClass.toString().slice(0, 5)).to.equal('class')
         expect(EXPORTED_NAMES.indexOf(errorClassName)).to.be.greaterThan(-1)
       })
@@ -95,7 +95,7 @@ describe('json-http-errors#', () => {
     const name = 'MyCustomError'
     const title = 'My Custom Error'
     const message = 'This is a custom error'
-    const status = 456
+    const statusCode = 456
 
     const testObjs: Array<[any, any]> = [
       [
@@ -103,41 +103,41 @@ describe('json-http-errors#', () => {
         { message: 'abc' }
       ],
       [
-        { foo: 'bar', status: 405 },
-        { status: 405 }
+        { foo: 'bar', statusCode: 405 },
+        { statusCode: 405 }
       ],
       [
         405,
-        { status: 405 }
+        { statusCode: 405 }
       ],
       [
         [405, 'Bad Request'],
-        { status: 405, message: 'Bad Request' }
+        { statusCode: 405, message: 'Bad Request' }
       ],
       [
         {
           body: { error_text: message},
-          message, name, status, title,
+          message, name, statusCode, title,
         },
         {
           body: { error_text: message},
-          message, name, title, status,
+          message, name, title, statusCode,
         }
       ],
       [
         {
           body: message,
-          name, title, status, message
+          name, title, statusCode, message
         },
         {
           body: message,
-          name, title, status, message,
+          name, title, statusCode, message,
         }
       ],
       [
-        { name, title, status, message, },
+        { name, title, statusCode, message, },
         {
-          name, title, status, message,
+          name, title, statusCode, message,
         }
       ],
     ]
@@ -169,13 +169,13 @@ describe('json-http-errors#', () => {
     it('Should accept only a number as constructor parameters', () => {
       const testErr = new HttpError(405)
       expect(testErr).to.be.instanceOf(Error)
-      expect(testErr.status).to.equal(405)
+      expect(testErr.statusCode).to.equal(405)
     })
 
     it('Should accept a number and a string as constructor parameters', () => {
       const testErr = new HttpError(405, 'Bad shit ahead')
       expect(testErr).to.be.instanceOf(Error)
-      expect(testErr.status).to.equal(405)
+      expect(testErr.statusCode).to.equal(405)
       expect(testErr.message).to.equal('Bad shit ahead')
       expect(testErr.body).to.deep.equal({error_text: 'Bad shit ahead'})
     })
@@ -183,21 +183,21 @@ describe('json-http-errors#', () => {
     it('Should set a 500 error body if the status code is >= 500', () => {
       const testErr = new HttpError(500)
       expect(testErr).to.be.instanceOf(Error)
-      expect(testErr.status).to.equal(500)
+      expect(testErr.statusCode).to.equal(500)
       expect(testErr.body).to.be.undefined
     })
 
     it('Should default to a 500 status, if given an invalid status', () => {
       const testErr = new HttpError(7000)
       expect(testErr).to.be.instanceOf(Error)
-      expect(testErr.status).to.equal(500)
+      expect(testErr.statusCode).to.equal(500)
       expect(testErr.message).to.equal(DEFAULT_ERROR_MESSAGE)
     })
 
     it('Should accept an HttpErrorOptions object as the constructor parameter', () => {
-      const testErr = new HttpError({ status: 405, message: 'Bad shit ahead' })
+      const testErr = new HttpError({ statusCode: 405, message: 'Bad shit ahead' })
       expect(testErr).to.be.instanceOf(Error)
-      expect(testErr.status).to.equal(405)
+      expect(testErr.statusCode).to.equal(405)
       expect(testErr.message).to.equal('Bad shit ahead')
     })
 
@@ -205,7 +205,7 @@ describe('json-http-errors#', () => {
       const errorObject = new Error('Bad shit ahead')
       const testErr = new HttpError(errorObject)
       expect(testErr).to.be.instanceOf(Error)
-      expect(testErr.status).to.equal(500)
+      expect(testErr.statusCode).to.equal(500)
       expect(testErr.message).to.equal('Bad shit ahead')
     })
 
@@ -213,7 +213,7 @@ describe('json-http-errors#', () => {
       const testErr = new HttpError({
         message: 'This is a custom error',
         name: 'MyCustomError',
-        status: 405,
+        statusCode: 405,
         title: 'My Custom Error',
       })
       expect(testErr).to.be.instanceOf(Error)
@@ -237,14 +237,14 @@ describe('json-http-errors#', () => {
       const testObject = createError(405)
       const comparisonObj = new AllExports.MethodNotAllowed()
       expect(testObject.name).to.equal(comparisonObj.name)
-      expect(testObject.status).to.equal(comparisonObj.status)
+      expect(testObject.statusCode).to.equal(comparisonObj.statusCode)
       expect(testObject.message).to.equal(comparisonObj.message)
     })
 
     it('Should create a generic HttpError class if given an unrecognized Http status code', () => {
       const testObject = createError(499)
       expect(testObject.name).to.equal('Error')
-      expect(testObject.status).to.equal(499)
+      expect(testObject.statusCode).to.equal(499)
       expect(testObject.title).to.equal('Internal Server Error')
     })
   })

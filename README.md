@@ -12,7 +12,7 @@ throw new BadRequest('You done messed up, son!')
 ```js
 {
   isHttpError: true,
-  status: 400,
+  statusCode: 400,
   title: 'Bad Request',
   message: 'You done messed up, son!',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
@@ -36,7 +36,7 @@ throw createError(401, 'OMG!')
 ```js
 {
   isHttpError: true,
-  status: 401,
+  statusCode: 401,
   title: 'Unauthorized',
   message: 'OMG!',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401',
@@ -60,7 +60,7 @@ throw new HttpError(401, {message: 'OMG!', body: { error_code: 'OMG!', error_tex
 ```js
 {
   isHttpError: true,
-  status: 401,
+  statusCode: 401,
   title: 'Internal Server Error',
   message: 'OMG!',
   body: {
@@ -86,7 +86,7 @@ totallyThrowsABadRequestError('The user did something completely new that NOONE 
 ```js
 {
   isHttpError: true,
-  status: 400,
+  statusCode: 400,
   title: 'Bad Request',
   message: 'The user did something completely new that NOONE foresaw',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
@@ -110,7 +110,7 @@ throw new HttpError(400, 'Bad stuff happened')
 ```js
 {
   isHttpError: true,
-  status: 400,
+  statusCode: 400,
   title: 'Internal Server Error',
   message: 'Bad stuff happened',
   body: { error_text: 'Bad stuff happened' }
@@ -128,7 +128,7 @@ throw new HttpError(500, 'Bad stuff happened', {body: {error_code: 'Why', error_
 ```json
 {
   isHttpError: true,
-  status: 500,
+  statusCode: 500,
   title: 'Internal Server Error',
   message: 'Bad stuff happened',
   body: {
@@ -144,7 +144,7 @@ new BadRequest('Bad stuff happened', {body: 'That was not good'})
 ```js
 
   isHttpError: true,
-  status: 400,
+  statusCode: 400,
   title: 'Bad Request',
   message: 'Bad stuff happened',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
@@ -160,7 +160,7 @@ throw new NotImplemented({body: {excuse: 'I just write the code. THEY designed t
 ```js
 {
   isHttpError: true,
-  status: 501,
+  statusCode: 501,
   title: 'Not Implemented',
   message: 'The request method is not supported by the server and cannot be handled.',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/501',
@@ -210,3 +210,12 @@ HTTP Status Code | Exported Class Name
 506 | VariantAlsoNegotiates
 507 | InsufficientStorage
 511 | NetworkAuthenticationRequired
+
+# Changelog
+Version | Notes
+--- | ---
+1.2.0 | Initial release: Why start at 1?
+1.2.1 | Updates to Readme; Added type file headers; Added .editorconfig;
+1.2.2 | Fixed name in readme
+1.2.3 | Added body and isHttpError properties to HttpError class; Security update for mocha; Updated Readme with new content and more examples
+1.2.4 | Changed statusCode to primary status property to be in line with NodeJS; status is now just a read-only property; Updated tests to reflect change

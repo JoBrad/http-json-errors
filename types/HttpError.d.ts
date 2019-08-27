@@ -3,7 +3,7 @@
  *
  * @param {string} name A custom name for the Error object
  * @param {string} title Short descriptor for the error
- * @param {string} status The HTTP Status code
+ * @param {string} statusCode The HTTP Status code
  * @param {string} message Info about the error (usually generic)
  * @param {string} detail Additional detail about this particular error
  * @param {string} stack Stack trace from the Error object
@@ -12,7 +12,7 @@
 export interface HttpErrorOptions {
     name?: string;
     title?: string;
-    status?: number;
+    statusCode?: number;
     body?: object | string;
     message?: string;
     detail?: string;
@@ -45,18 +45,12 @@ export declare function parseErrorOptions(...errorOptions: Array<string | number
  */
 export declare class HttpError extends Error {
     readonly isHttpError = true;
-    status: number;
+    statusCode: number;
     title: string;
     body?: object;
     message: string;
     constructor(...errorOptions: Array<number | string | HttpErrorOptions>);
-    /**
-     * The HTTP Status code
-     * Included for compatibility
-     *
-     * @memberof HttpError
-     */
-    statusCode: number;
+    readonly status: number;
 }
 declare type Maybe<T> = T | undefined;
 export {};

@@ -3,7 +3,7 @@
  *
  * @param {string} name A custom name for the Error object
  * @param {string} title Short descriptor for the error
- * @param {string} status The HTTP Status code
+ * @param {string} statusCode The HTTP Status code
  * @param {string} message Info about the error (usually generic)
  * @param {string} detail Additional detail about this particular error
  * @param {string} stack Stack trace from the Error object
@@ -12,7 +12,7 @@
 export interface HttpErrorOptions {
   name?: string
   title?: string
-  status?: number
+  statusCode?: number
   body?: object | string
   message?: string
   detail?: string
@@ -51,7 +51,7 @@ export function parseErrorOptions(...errorOptions: Array<string|number|HttpError
       if (typeof opt === 'string' || typeof opt === 'number') {
         const statusCode = getStatusCode(opt)
         if (statusCode) {
-          options.status = statusCode
+          options.statusCode = statusCode
         } else if (typeof opt === 'string') {
           options.message = opt
         }
@@ -77,35 +77,26 @@ export function parseErrorOptions(...errorOptions: Array<string|number|HttpError
  */
 export class HttpError extends Error {
   readonly isHttpError = true
-  status: number
+  statusCode: number
   title: string
   body?: object
   message: string
 
   constructor(...errorOptions: Array<number | string | HttpErrorOptions>) {
     super()
-    this.status = DEFAULT_STATUS_CODE
+    this.statusCode = DEFAULT_STATUS_CODE
     this.title = DEFAULT_REASON_CODE
     this.message = DEFAULT_ERROR_MESSAGE
     Object.assign(this, parseErrorOptions(...errorOptions))
-    if (!this.body && this.status < 500) {
+    if (!this.body && this.statusCode < 500) {
       this.body = {
         error_text: this.message || DEFAULT_ERROR_MESSAGE
       }
     }
   }
 
-  /**
-   * The HTTP Status code
-   * Included for compatibility
-   *
-   * @memberof HttpError
-   */
-  get statusCode() {
-    return this.status
-  }
-  set statusCode(statusCode) {
-    this.status = statusCode
+  get status() {
+    return this.statusCode
   }
 }
 
@@ -160,7 +151,7 @@ function hasKeys(obj: any): boolean {
 }
 
 const ERROR_PROPERTIES = [
-  'name', 'title', 'status', 'body',
+  'name', 'title', 'statusCode', 'body',
   'message', 'detail', 'stack', 'type'
 ]
 const DEFAULT_STATUS_CODE = 500
