@@ -17,9 +17,7 @@ throw new BadRequest('You done messed up, son!')
   message: 'You done messed up, son!',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
   body: {
-    error_text: 'The server cannot or will not process the request because ' +
-      'the received syntax is invalid, nonsensical, or exceeds ' +
-      'some limitation on what the server is willing to process.'
+    error_text: 'You done messed up, son!'
   }
 }
 ```
@@ -41,9 +39,7 @@ throw createError(401, 'OMG!')
   message: 'OMG!',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401',
   body: {
-    error_text: 'The request has not been applied because it lacks ' +
-      'valid authentication credentials for the target ' +
-      'resource.'
+    error_text: 'OMG!'
   }
 }
 ```
@@ -70,8 +66,8 @@ throw new HttpError(401, {message: 'OMG!', body: { error_code: 'OMG!', error_tex
 }
 ```
 
-# Typing
-This project was built in TypeScript and contains exported interfaces and type definitions for your convenience. Additionally, each object contains an isHttpError property set to true.
+# TypeScript + ES6
+This project was built in TypeScript and contains exported interfaces and type definitions for your convenience. The module is designed to use ES6 imports.
 
 ```ts
 // Check out the Custom HTTP Error Classes section for a full list of custom classes!
@@ -91,9 +87,7 @@ totallyThrowsABadRequestError('The user did something completely new that NOONE 
   message: 'The user did something completely new that NOONE foresaw',
   type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400',
   body: {
-    error_text: 'The server cannot or will not process the request because ' +
-      'the received syntax is invalid, nonsensical, or exceeds ' +
-      'some limitation on what the server is willing to process.'
+    error_text: 'The user did something completely new that NOONE foresaw'
   }
 }
 ```
@@ -219,3 +213,4 @@ Version | Notes
 1.2.2 | Fixed name in readme
 1.2.3 | Added body and isHttpError properties to HttpError class; Security update for mocha; Updated Readme with new content and more examples
 1.2.4 | Changed statusCode to primary status property to be in line with NodeJS; status is now just a read-only property; Updated tests to reflect change
+1.2.5 | A string passed to a custom class will be set as the body error_text value. Updated examples to reflect the change. Updated dev dependency versions.

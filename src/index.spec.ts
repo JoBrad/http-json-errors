@@ -3,8 +3,7 @@ import { expect } from 'chai'
 import { getStatusCode, parseErrorOptions } from '../src/HttpError'
 
 import {
-  createError,
-  HttpError
+  BadRequest, createError, HttpError,
 } from './index'
 // tslint:disable-next-line: no-duplicate-imports
 import * as AllExports from './index'
@@ -222,6 +221,17 @@ describe('json-http-errors#', () => {
       expect(testErr.statusCode).to.equal(405)
       expect(testErr.message).to.equal('This is a custom error')
       expect(testErr.body).to.deep.equal({error_text: 'This is a custom error'})
+    })
+
+    it('Should set the body text if given a string in the constructor of a custom class', () => {
+      const testErr = new BadRequest('WTF are you doing?')
+      console.log(JSON.stringify(testErr))
+      expect(testErr).to.be.instanceOf(Error)
+      expect(testErr.name).to.equal('Error')
+      expect(testErr.title).to.equal('Bad Request')
+      expect(testErr.statusCode).to.equal(400)
+      expect(testErr.message).to.equal('WTF are you doing?')
+      expect(testErr.body).to.deep.equal({error_text: 'WTF are you doing?'})
     })
 
     it('Should be able to set the status using the statusCode property', () => {
