@@ -119,7 +119,7 @@ import { HttpError } from 'http-json-errors'
 throw new HttpError(500, 'Bad stuff happened', {body: {error_code: 'Why', error_description: 'You did the thing you should not have done' }})
 ```
 
-```json
+```js
 {
   isHttpError: true,
   statusCode: 500,
