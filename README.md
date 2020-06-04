@@ -1,4 +1,5 @@
 # http-json-errors
+![Tests](https://github.com/JoBrad/http-json-errors/workflows/Tests/badge.svg?branch=master)
 A Node package that exposes standardized error creation functions and a class. This package was written for Express but doesn't have any dependencies on it.
 
 ## Example
