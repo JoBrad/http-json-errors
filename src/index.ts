@@ -1,31 +1,33 @@
-// tslint:disable: max-line-length
-export { HttpError, HttpErrorOptions } from './HttpError'
+export {
+  HttpError, HttpErrorOptions,
+} from './HttpError'
 import {
   getStatusCode, HttpError, HttpErrorOptions, parseErrorOptions,
 } from './HttpError'
 
+type HttpErrorClass = Record<string, typeof HttpError>
+
 // Contains error code -> class mapping
-const CODE_CLASSES = {}
+const CODE_CLASSES: HttpErrorClass = {}
 
 /**
  * Create a new HttpError with the given statusCode and message
  *
- * @export
- * @param {number} statusCode
- * @param {string} message
- * @returns {HttpError}
+ * @param status  The statusCode for the HttpError object
+ * @param options Can be a message string or an HttpErrorOptions object
  */
-export function createError(status: number, message?: string): HttpError {
+export const createError = (status: number, options?: string|HttpErrorOptions): HttpError => {
   const statusCode = getStatusCode(status)
-  if (statusCode && CODE_CLASSES['' + statusCode]) {
-    return new CODE_CLASSES['' + statusCode](message)
+  if (statusCode && CODE_CLASSES[statusCode]) {
+    return new CODE_CLASSES[statusCode](options)
   } else {
-    return new HttpError({statusCode, message})
+    return new HttpError(statusCode, options)
   }
 }
 
-// Extended classes for specific errors
-////////////////////////////////////////
+/* ******************************
+  Extended classes for specific errors
+  *********************************** */
 
 /**
  * Bad Request

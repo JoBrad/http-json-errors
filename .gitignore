@@ -36,10 +36,9 @@ build/Release
 node_modules/
 jspm_packages/
 
-# TypeScript v1 declaration files
+# Generated types and transpiled JS
 typings/
-lib/**/*.map
-lib/**/*.spec.js
+lib
 
 # Optional npm cache directory
 .npm

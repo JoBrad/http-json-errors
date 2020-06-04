@@ -214,3 +214,4 @@ Version | Notes
 1.2.3 | Added body and isHttpError properties to HttpError class; Security update for mocha; Updated Readme with new content and more examples
 1.2.4 | Changed statusCode to primary status property to be in line with NodeJS; status is now just a read-only property; Updated tests to reflect change
 1.2.5 | A string passed to a custom class will be set as the body error_text value. Updated examples to reflect the change. Updated dev dependency versions.
+1.2.6 | Developer environment updates: updated to mocha@7.2.0; Removed all implicit `any` values; replaced object with Record<string, any>; migrated from tslint to eslint; added VSCode settings.

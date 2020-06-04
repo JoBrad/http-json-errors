@@ -13,7 +13,7 @@ export interface HttpErrorOptions {
   name?: string
   title?: string
   statusCode?: number
-  body?: object | string
+  body?: Record<string, any> | string
   message?: string
   detail?: string
   stack?: string
@@ -28,10 +28,10 @@ export interface HttpErrorOptions {
  * @param {any} value
  * @returns {(number|undefined)}
  */
-export function getStatusCode(value: string | number): Maybe<number> {
+export const getStatusCode = (value: string | number): Maybe<number> => {
   let returnValue: Maybe<number>
   if (typeof value === 'string' || typeof value === 'number') {
-    const numValue = parseInt(('' + value).split('.')[0], 10)
+    const numValue = parseInt(`${value}`.split('.')[0], 10)
     if (numValue && numValue >= 100 && numValue <= 699) {
       returnValue = numValue
     }
@@ -41,10 +41,11 @@ export function getStatusCode(value: string | number): Maybe<number> {
 
 /**
  * Returns HttpError options parsed from the provided parameters
+ *
  * @param errorOptions
  * @returns HttpErrorOptions
  */
-export function parseErrorOptions(...errorOptions: Array<string|number|HttpErrorOptions|HttpError>): HttpErrorOptions {
+export const parseErrorOptions = (...errorOptions: OptionsArg[]): HttpErrorOptions => {
   let options: HttpErrorOptions = {}
   errorOptions.map(opt => {
     if (opt) {
@@ -58,7 +59,7 @@ export function parseErrorOptions(...errorOptions: Array<string|number|HttpError
       } else if (opt instanceof Error || hasKeys(opt)) {
         options = {
           ...options,
-          ...getOptionsFromObject(opt)
+          ...getErrorProperties(opt),
         }
       }
     }
@@ -79,10 +80,10 @@ export class HttpError extends Error {
   readonly isHttpError = true
   statusCode: number
   title: string
-  body?: object
+  body?: Record<string, any>
   message: string
 
-  constructor(...errorOptions: Array<number | string | HttpErrorOptions>) {
+  constructor(...errorOptions: OptionsArg[]) {
     super()
     this.statusCode = DEFAULT_STATUS_CODE
     this.title = DEFAULT_REASON_CODE
@@ -90,50 +91,100 @@ export class HttpError extends Error {
     Object.assign(this, parseErrorOptions(...errorOptions))
     if (!this.body && this.statusCode < 500) {
       this.body = {
-        error_text: this.message || DEFAULT_ERROR_MESSAGE
+        // eslint-disable-next-line camelcase
+        error_text: this.message || DEFAULT_ERROR_MESSAGE,
       }
     }
   }
 
-  get status() {
+  get status(): number {
     return this.statusCode
   }
 }
 
 /**
- * Returns an object with HttpErrorOptions values from obj,
- * if it is an object, or an instance of Error or HttpError
- *
- * @param {any} obj
- * @returns {HttpErrorOptions}
- */
-function getOptionsFromObject(obj: any): HttpErrorOptions {
-  const returnOptions = {}
-  ERROR_PROPERTIES
-    .map(getPropGetter(obj))
-    .filter(kvPair => typeof kvPair[1] !== 'undefined')
-    .map(([key, value]) => {
-      returnOptions[key] = value
-    })
-  return returnOptions
-}
-
-/**
- * Accepts an object, and returns a function that accepts a property name. If obj
- * has keys and the property name exists on it, this function will return a
- * tuple of [property_name, property_value]. If either of those criteria are
- * not met, property_value will be undefined.
+ * Extracts HttpErrorOptions properties from obj
  *
  * @param obj
  */
-const getPropGetter = <T>(obj: T) => {
-  return <P extends keyof T>(propName: P) => {
-    let propValue
-    try {
-      propValue = obj[propName]
-    } catch (_er) { }
-    return [propName, propValue]
+const getErrorProperties = (obj: Record<string, any>): HttpErrorOptions => {
+  const returnObj: HttpErrorOptions = {}
+  if ( (isObj(obj) && hasKeys(obj)) || isErr(obj) ) {
+    const {
+      name, title, message, detail,
+      stack, type, statusCode, body,
+    } = obj
+    if (isString(name)) {
+      returnObj.name = name
+    }
+    if (isString(title)) {
+      returnObj.title = title
+    }
+    if (isString(message)) {
+      returnObj.message = message
+    }
+    if (isString(detail)) {
+      returnObj.detail = detail
+    }
+    if (isString(stack)) {
+      returnObj.stack = stack
+    }
+    if (isString(type)) {
+      returnObj.type = type
+    }
+    if (statusCode && isNumber(statusCode)) {
+      returnObj.statusCode = statusCode
+    }
+    if (body && ( isString(body) || isObj(body)) ) {
+      returnObj.body = body
+    }
   }
+  return returnObj
+}
+
+/**
+ * Returns true if obj is null or undefined
+ *
+ * @param obj
+ */
+const isNil = (obj: unknown): obj is null | undefined => {
+  return null === obj || typeof obj === 'undefined'
+}
+
+/**
+ * Returns true if obj is a string
+ *
+ * @param obj
+ */
+const isString = (obj: unknown): obj is string => {
+  return typeof obj === 'string'
+}
+
+/**
+ * Returns true if obj is a plain object, but is not null or undefined
+ *
+ * @param obj
+ */
+const isObj = (obj: unknown): obj is NonNullable<Record<string, unknown>> => {
+  return !isNil(obj) && Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+/**
+ * Returns true if obj is an Error instance
+ *
+ * @param obj
+ */
+const isErr = (obj: unknown): obj is Error | HttpError => {
+  return obj instanceof Error
+}
+
+/**
+ * Returns true if obj is a number, but not NaN
+ *
+ * @param obj
+ */
+const isNumber = (obj: unknown): obj is number => {
+  return typeof obj === 'number' && !isNaN(obj)
 }
 
 /**
@@ -142,21 +193,17 @@ const getPropGetter = <T>(obj: T) => {
  * @param {any} obj
  * @returns {boolean}
  */
-function hasKeys(obj: any): boolean {
-  let keyCount
+const hasKeys = (obj: any): boolean => {
+  let keyCount = 0
   try {
     keyCount = Object.keys(obj).length
   } catch (_er) { }
-  return (keyCount && keyCount > 0)
+  return keyCount > 0
 }
 
-const ERROR_PROPERTIES = [
-  'name', 'title', 'statusCode', 'body',
-  'message', 'detail', 'stack', 'type'
-]
 const DEFAULT_STATUS_CODE = 500
 const DEFAULT_REASON_CODE = 'Internal Server Error'
-// tslint:disable-next-line: max-line-length
+// eslint-disable-line max-len
 const DEFAULT_ERROR_MESSAGE = 'The server encountered an unexpected condition that prevented it from fulfilling the request'
-
 type Maybe<T> = T | undefined
+type OptionsArg = Maybe<string|number|HttpErrorOptions|HttpError>

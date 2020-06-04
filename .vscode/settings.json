@@ -1,11 +1,9 @@
 {
-  // Settings are for the VSCode Mocha sidebar extension
-  // https://marketplace.visualstudio.com/itemdetails?itemName=maty.vscode-mocha-sidebar
-  "mocha.files.glob": "src/**/*.spec.ts",
-  "mocha.requires": [
-    "ts-node/register",
-  ],
-  "mocha.runTestsOnSave": "false",
-  "files.trimFinalNewlines": true,
-  "files.eol": "\n"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.insertFinalNewline": true,
+  "editor.useTabStops": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true
 }

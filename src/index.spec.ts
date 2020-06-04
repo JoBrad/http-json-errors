@@ -1,20 +1,25 @@
-// tslint:disable: no-unused-expression
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable no-duplicate-imports */
 import { expect } from 'chai'
-import { getStatusCode, parseErrorOptions } from '../src/HttpError'
+import { getStatusCode, parseErrorOptions } from './HttpError'
 
 import {
   BadRequest, createError, HttpError,
 } from './index'
-// tslint:disable-next-line: no-duplicate-imports
 import * as AllExports from './index'
 const VALID_ERROR_CODES = [
   400, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412,
   413, 414, 415, 416, 417, 418, 421, 422, 423, 424, 426, 428,
-  429, 431, 451, 500, 501, 502, 503, 504, 505, 506, 507, 511
+  429, 431, 451, 500, 501, 502, 503, 504, 505, 506, 507, 511,
 ]
 const EXPORTED_NAMES = Object.keys(AllExports)
 const ERROR_CODES = Array.from(Array(600), (e, i) => i + 100)
-// tslint:disable-next-line: max-line-length
+// eslint-disable-line max-len
 const DEFAULT_ERROR_MESSAGE = 'The server encountered an unexpected condition that prevented it from fulfilling the request'
 
 /**
@@ -23,7 +28,7 @@ const DEFAULT_ERROR_MESSAGE = 'The server encountered an unexpected condition th
  * @param {any} obj
  * @returns {string}
  */
-function toString(obj: any): string {
+const toString = (obj: any): string => {
   if (Array.isArray(obj) || null === obj) {
     return '' + obj.map(toString)
   } else {
@@ -42,7 +47,7 @@ function toString(obj: any): string {
 
 describe('json-http-errors#', () => {
   describe('Custom Error Classes', () => {
-    it(`Should have a Custom HttpError class for error codes 400 - 511`, () => {
+    it('Should have a Custom HttpError class for error codes 400 - 511', () => {
     VALID_ERROR_CODES.map(statusNumber => {
         const errorObject = createError(statusNumber)
         const errorClass = errorObject.constructor
@@ -99,19 +104,19 @@ describe('json-http-errors#', () => {
     const testObjs: Array<[any, any]> = [
       [
         'abc',
-        { message: 'abc' }
+        { message: 'abc' },
       ],
       [
         { foo: 'bar', statusCode: 405 },
-        { statusCode: 405 }
+        { statusCode: 405 },
       ],
       [
         405,
-        { statusCode: 405 }
+        { statusCode: 405 },
       ],
       [
         [405, 'Bad Request'],
-        { statusCode: 405, message: 'Bad Request' }
+        { statusCode: 405, message: 'Bad Request' },
       ],
       [
         {
@@ -121,23 +126,23 @@ describe('json-http-errors#', () => {
         {
           body: { error_text: message},
           message, name, title, statusCode,
-        }
+        },
       ],
       [
         {
           body: message,
-          name, title, statusCode, message
+          name, title, statusCode, message,
         },
         {
           body: message,
           name, title, statusCode, message,
-        }
+        },
       ],
       [
-        { name, title, statusCode, message, },
+        { name, title, statusCode, message },
         {
           name, title, statusCode, message,
-        }
+        },
       ],
     ]
     testObjs.map(testPair => {
