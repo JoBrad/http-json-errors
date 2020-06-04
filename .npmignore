@@ -3,3 +3,6 @@ src/
 .editorconfig
 .gitignore
 testResults.log
+.github
+.es*.*
+.mocha*.*
