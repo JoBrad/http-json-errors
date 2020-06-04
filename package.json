@@ -38,7 +38,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "npm ci && eslint ./src/*.ts && tsc --pretty",
+    "prepare": "eslint ./src/*.ts && tsc --pretty",
     "build": "npm ci && tsc --pretty",
     "lint": "eslint ./src/*.ts",
     "test": "tsc --pretty && mocha"
