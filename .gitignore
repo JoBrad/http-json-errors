@@ -37,7 +37,7 @@ node_modules/
 jspm_packages/
 
 # Generated types and transpiled JS
-typings/
+types
 lib
 
 # Optional npm cache directory
