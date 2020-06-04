@@ -1,6 +1,6 @@
 {
   "name": "http-json-errors",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "author": "Joseph T. Bradley",
   "description": "Provides a class for standardized Error reporting",
   "homepage": "https://github.com/JoBrad/http-json-errors#readme",
@@ -38,8 +38,8 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "eslint ./src/*.ts && tsc --pretty",
-    "build": "eslint ./src/*.ts && tsc --pretty",
+    "prepare": "npm ci && eslint ./src/*.ts && tsc --pretty",
+    "build": "npm ci && tsc --pretty",
     "lint": "eslint ./src/*.ts",
     "test": "tsc --pretty && mocha"
   },
