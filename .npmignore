@@ -4,5 +4,7 @@ src/
 .gitignore
 testResults.log
 .github
-.es*.*
-.mocha*.*
+.eslintrc.*
+.eslintignore
+.mocharc.*
+tsconfig.json
