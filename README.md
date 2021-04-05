@@ -191,7 +191,7 @@ HTTP Status Code | Exported Class Name
 422 | UnprocessableEntity
 423 | Locked
 424 | FailedDependency
-426 | TooEarly
+425 | TooEarly
 426 | UpgradeRequired
 428 | PreconditionRequired
 429 | TooManyRequests
@@ -221,3 +221,4 @@ Version | Notes
 1.2.6 | Developer environment updates: updated to mocha@7.2.0; Removed all implicit `any` values; replaced object with Record<string, any>; migrated from tslint to eslint; added VSCode settings.
 1.2.7-1.2.8 | Updates to NPM package
 1.2.9 | Updated mocha to address security advisory: https://github.com/advisories/GHSA-p9pc-299p-vxgp;
+1.2.10 | Updated typo for status 425
