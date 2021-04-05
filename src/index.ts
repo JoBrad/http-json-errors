@@ -481,14 +481,14 @@ CODE_CLASSES['424'] = FailedDependency
 export class TooEarly extends HttpError implements HttpErrorOptions {
   constructor(...options: Array<number|string|HttpErrorOptions>) {
     super(parseErrorOptions({
-      statusCode: 426,
+      statusCode: 425,
       message: 'The server is unwilling to risk processing a request that might be replayed',
       title: 'Too Early',
       type: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/425',
     }, ...options))
   }
 }
-CODE_CLASSES['426'] = TooEarly
+CODE_CLASSES['425'] = TooEarly
 
 /**
  * Upgrade Required
