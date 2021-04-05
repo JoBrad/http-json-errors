@@ -1,7 +1,7 @@
 ![Tests](https://github.com/JoBrad/http-json-errors/workflows/Tests/badge.svg?branch=master)
 
 # http-json-errors
-A Node package that exposes standardized error creation functions and a class. This package was written for Express but doesn't have any dependencies on it.
+A Node package that exposes standardized error creation functions and a class. This package was written for Express but doesn't have any dependencies on Express or any other package, except for development.
 
 ## Example
 
@@ -207,7 +207,9 @@ HTTP Status Code | Exported Class Name
 507 | InsufficientStorage
 511 | NetworkAuthenticationRequired
 
+
 # Changelog
+
 Version | Notes
 --- | ---
 1.2.0 | Initial release: Why start at 1?
@@ -217,3 +219,5 @@ Version | Notes
 1.2.4 | Changed statusCode to primary status property to be in line with NodeJS; status is now just a read-only property; Updated tests to reflect change
 1.2.5 | A string passed to a custom class will be set as the body error_text value. Updated examples to reflect the change. Updated dev dependency versions.
 1.2.6 | Developer environment updates: updated to mocha@7.2.0; Removed all implicit `any` values; replaced object with Record<string, any>; migrated from tslint to eslint; added VSCode settings.
+1.2.7-1.2.8 | Updates to NPM package
+1.2.9 | Updated mocha to address security advisory: https://github.com/advisories/GHSA-p9pc-299p-vxgp;
