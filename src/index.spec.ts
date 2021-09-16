@@ -18,7 +18,7 @@ const VALID_ERROR_CODES = [
   428, 429, 431, 451, 500, 501, 502, 503, 504, 505, 506, 507, 511,
 ]
 const EXPORTED_NAMES = Object.keys(AllExports)
-const ERROR_CODES = Array.from(Array(600), (e, i) => i + 100)
+const ERROR_CODES = Array.from(Array(500), (e, i) => i + 100)
 // eslint-disable-line max-len
 const DEFAULT_ERROR_MESSAGE = 'The server encountered an unexpected condition that prevented it from fulfilling the request'
 
@@ -69,12 +69,17 @@ describe('json-http-errors#', () => {
       expect(getStatusCode).to.be.a('function')
     })
 
-    it('Should properly parse integer error codes between 100 and 699', () => {
+    it('Should properly parse integer error codes between 100 and 599', () => {
       const badParsing = parsedValues.find((c, i) => {
         return c[0] !== ERROR_CODES[i]
       })
 
       expect(badParsing).to.be.undefined
+    })
+
+    it('Should not consider invalid status codes as a status code', () => {
+      expect(getStatusCode('123fdsaffad')).to.be.undefined
+      expect(getStatusCode('45.16')).to.be.undefined
     })
 
     it('Should properly parse status codes as doubles', () => {

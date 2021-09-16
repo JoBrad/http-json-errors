@@ -21,7 +21,7 @@ export interface HttpErrorOptions {
 }
 
 /**
- * Returns the value if it is a number between 100 and 699.
+ * Returns the value if it is a number between 100 and 599.
  * Otherwise returns undefined.
  * Supports strings containing numbers.
  *
@@ -31,9 +31,12 @@ export interface HttpErrorOptions {
 export const getStatusCode = (value: string | number): Maybe<number> => {
   let returnValue: Maybe<number>
   if (typeof value === 'string' || typeof value === 'number') {
-    const numValue = parseInt(`${value}`.split('.')[0], 10)
-    if (numValue && numValue >= 100 && numValue <= 699) {
-      returnValue = numValue
+    let strValue = `${value}`.trim()
+    if (strValue.length === 3) {
+      const numValue = parseInt(strValue, 10)
+      if (numValue && isNumber(numValue) && numValue >= 100 && numValue <= 599) {
+        returnValue = numValue
+      }
     }
   }
   return returnValue
