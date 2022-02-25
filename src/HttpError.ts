@@ -31,7 +31,7 @@ export interface HttpErrorOptions {
 export const getStatusCode = (value: string | number): Maybe<number> => {
   let returnValue: Maybe<number>
   if (typeof value === 'string' || typeof value === 'number') {
-    let strValue = `${value}`.trim()
+    const strValue = `${value}`.trim()
     if (strValue.length === 3) {
       const numValue = parseInt(strValue, 10)
       if (numValue && isNumber(numValue) && numValue >= 100 && numValue <= 599) {

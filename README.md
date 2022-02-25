@@ -223,3 +223,4 @@ Version | Notes
 1.2.9 | Updated mocha to address security advisory: https://github.com/advisories/GHSA-p9pc-299p-vxgp;
 1.2.10 | Updated typo for status 425
 1.2.11 | Fixed a bug where a value starting with 3 numbers would be mis-construed as a status code.
+1.2.12 | Updated mocha and chai to address vulnerabilities.
