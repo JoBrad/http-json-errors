@@ -42,5 +42,5 @@
     "lint": "eslint ./src/*.ts",
     "test": "tsc --pretty && mocha"
   },
-  "types": "types/index.d.ts"
+  "types": "lib/index.d.ts"
 }
