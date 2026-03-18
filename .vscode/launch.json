@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Run the app",
-      "program": "${workspaceFolder}/build/index.js",
+      "program": "${workspaceFolder}/lib/index.js",
       "preLaunchTask": "build",
       "outFiles": [
         "${workspaceFolder}/lib/**/*.js"

@@ -116,7 +116,7 @@ const getErrorProperties = (obj: Record<string, any>): HttpErrorOptions => {
     const {
       name, title, message, detail,
       stack, type, statusCode, body,
-    } = obj
+    } = obj as Record<string, any>
     if (isString(name)) {
       returnObj.name = name
     }
